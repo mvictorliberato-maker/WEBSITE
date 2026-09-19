@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barbearia Dom Oscar — Site Profissional</title>
+<meta name="description" content="Modelo de site profissional para barbearias: agendamento, galeria de cortes, localização e presença 24 horas.">
+
+<!-- ============================================================
+     GOOGLE FONTS
+     Playfair Display -> títulos / headline (serifada, clássica)
+     Inter -> texto corrido (sans-serif limpa)
+============================================================ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- ============================================================
+     MOTION (Framer Motion for vanilla JS) via CDN
+     Usado para animações de entrada (fade + slide up) ao rolar
+============================================================ -->
+<script src="https://cdn.jsdelivr.net/npm/motion@10.18.0/dist/motion.js"></script>
+
+<style>
+  /* ============================================================
+     VARIÁVEIS DE MARCA
+     Troque aqui os textos {NOME_DO_NEGOCIO}, {ENDEREÇO/BAIRRO} e {WHATSAPP}
+     (já preenchidos com o exemplo "Barbearia Dom Oscar" para visualização)
+  ============================================================ */
+  :root{
+    --preto: #0D0D0D;
+    --grafite: #1C1C1C;
+    --grafite-2: #232323;
+    --dourado: #C9A227;
+    --dourado-claro: #E4C64F;
+    --texto-claro: #F2EFE6;
+    --texto-mudo: #B7B2A3;
+    --borda: rgba(201,162,39,0.25);
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background: var(--preto);
+    color: var(--texto-claro);
+    font-family: var(--sans);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  img, svg{ display:block; max-width:100%; }
+
+  a{ color:inherit; text-decoration:none; }
+
+  .container{
+    width:100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  section{ position:relative; padding: 88px 0; }
+
+  .eyebrow{
+    display:inline-block;
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--dourado);
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+
+  h1, h2, h3{
+    font-family: var(--serif);
+    font-weight: 800;
+    color: var(--texto-claro);
+    line-height: 1.15;
+  }
+
+  h2{ font-size: clamp(1.8rem, 4vw, 2.6rem); margin-bottom: 14px; }
+  h3{ font-size: 1.3rem; margin-bottom: 8px; }
+
+  .section-sub{
+    color: var(--texto-mudo);
+    max-width: 640px;
+    font-size: 1.05rem;
+    margin-bottom: 44px;
+  }
+
+  /* ---------- BOTÕES ---------- */
+  .btn{
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 32px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
+    font-family: var(--sans);
+  }
+
+  .btn-primary{
+    background: linear-gradient(135deg, var(--dourado-claro), var(--dourado));
+    color: #1a1400;
+  }
+  .btn-primary:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px -8px rgba(201,162,39,0.55);
+  }
+
+  .btn-outline{
+    background: transparent;
+    color: var(--texto-claro);
+    border: 1px solid var(--borda);
+  }
+  .btn-outline:hover{
+    border-color: var(--dourado);
+    background: rgba(201,162,39,0.08);
+    transform: translateY(-2px);
+  }
+
+  .btn svg{ width:20px; height:20px; }
+
+  /* ---------- HEADER / NAV ---------- */
+  header{
+    position: fixed;
+    top:0; left:0; right:0;
+    z-index: 50;
+    background: rgba(13,13,13,0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--borda);
+  }
+  .nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding: 16px 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .logo{
+    font-family: var(--serif);
+    font-weight: 800;
+    font-size: 1.25rem;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    letter-spacing: 0.02em;
+  }
+  .logo span{ color: var(--dourado); }
+  .nav-links{
+    display:flex;
+    gap: 28px;
+    font-size: 0.92rem;
+    font-weight: 500;
+  }
+  .nav-links a:hover{ color: var(--dourado); }
+  .nav-cta{ display:flex; }
+  .nav-cta .btn{ padding: 10px 20px; font-size: 0.88rem; }
+
+  @media (max-width: 760px){
+    .nav-links{ display:none; }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height: 100vh;
+    display:flex;
+    align-items:center;
+    padding-top: 120px;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(201,162,39,0.12), transparent 45%),
+      radial-gradient(circle at 85% 80%, rgba(201,162,39,0.08), transparent 50%),
+      var(--preto);
+    position: relative;
+    overflow:hidden;
+  }
+
+  /* Padrão decorativo em SVG inline - substitui foto de fundo */
+  .hero-pattern{
+    position:absolute; inset:0;
+    opacity: 0.35;
+    pointer-events:none;
+  }
+
+  .hero-grid{
+    display:grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 48px;
+    align-items:center;
+  }
+
+  @media (max-width: 900px){
+    .hero-grid{ grid-template-columns: 1fr; }
+  }
+
+  .hero h1{
+    font-size: clamp(2.2rem, 5.2vw, 3.6rem);
+    margin-bottom: 22px;
+  }
+  .hero h1 .highlight{
+    color: var(--dourado);
+    font-style: italic;
+  }
+
+  .hero p.lead{
+    color: var(--texto-mudo);
+    font-size: 1.15rem;
+    max-width: 520px;
+    margin-bottom: 34px;
+  }
+
+  .hero-actions{
+    display:flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+
+  .hero-note{
+    display:flex;
+    align-items:center;
+    gap: 10px;
+    color: var(--texto-mudo);
+    font-size: 0.88rem;
+  }
+  .hero-note svg{ width:16px; height:16px; color: var(--dourado); flex-shrink:0; }
+
+  /* "Cartão" ilustrativo no lugar de foto do barbeiro */
+  .hero-visual{
+    position: relative;
+    aspect-ratio: 4/5;
+    border-radius: 16px;
+    border: 1px solid var(--borda);
+    background: linear-gradient(160deg, var(--grafite) 0%, var(--preto) 100%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+  .hero-visual::before{
+    content:'';
+    position:absolute;
+    width: 220%; height: 220%;
+    background: conic-gradient(from 0deg, transparent 0%, rgba(201,162,39,0.15) 15%, transparent 30%);
+    animation: spin 12s linear infinite;
+  }
+  @keyframes spin{ to{ transform: rotate(360deg); } }
+
+  .hero-visual svg{ width: 46%; position:relative; z-index:2; color: var(--dourado); }
+
+  /* ---------- PROBLEMA / AGITAÇÃO ---------- */
+  .problema{ background: var(--grafite); }
+
+  .problema-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  @media (max-width: 800px){ .problema-grid{ grid-template-columns: 1fr; } }
+
+  .problema-card{
+    background: var(--preto);
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    padding: 28px 24px;
+  }
+  .problema-card .icon-x{
+    width: 42px; height:42px;
+    border-radius: 50%;
+    background: rgba(201,162,39,0.1);
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom: 16px;
+    color: var(--dourado);
+  }
+  .problema-card p{ color: var(--texto-mudo); font-size: 0.96rem; }
+  .problema-card strong{ color: var(--texto-claro); display:block; margin-bottom: 6px; font-size:1.05rem; }
+
+  /* ---------- SOLUÇÃO / SERVIÇOS ---------- */
+  .cards-grid{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  @media (max-width: 1000px){ .cards-grid{ grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px){ .cards-grid{ grid-template-columns: 1fr; } }
+
+  .service-card{
+    background: var(--grafite);
+    border: 1px solid var(--borda);
+    border-radius: 14px;
+    padding: 30px 24px;
+    transition: transform .3s ease, border-color .3s ease, background .3s ease;
+  }
+  .service-card:hover{
+    transform: translateY(-8px);
+    border-color: var(--dourado);
+    background: var(--grafite-2);
+  }
+  .service-card .icon{
+    width:52px; height:52px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(201,162,39,0.2), rgba(201,162,39,0.05));
+    display:flex; align-items:center; justify-content:center;
+    color: var(--dourado);
+    margin-bottom: 20px;
+  }
+  .service-card p{ color: var(--texto-mudo); font-size: 0.94rem; }
+
+  /* ---------- DEPOIMENTOS ---------- */
+  .depoimentos{ background: var(--grafite); }
+  .depo-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  @media (max-width: 900px){ .depo-grid{ grid-template-columns: 1fr; } }
+
+  .depo-card{
+    background: var(--preto);
+    border: 1px solid var(--borda);
+    border-radius: 14px;
+    padding: 28px;
+    position:relative;
+  }
+  .depo-card .stars{ color: var(--dourado); font-size: 1rem; margin-bottom: 14px; letter-spacing: 2px; }
+  .depo-card p.quote{ color: var(--texto-claro); font-size: 0.98rem; margin-bottom: 20px; font-style: italic; }
+  .depo-autor{ display:flex; align-items:center; gap: 12px; }
+  .depo-avatar{
+    width: 40px; height:40px; border-radius:50%;
+    background: linear-gradient(135deg, var(--dourado-claro), var(--dourado));
+    display:flex; align-items:center; justify-content:center;
+    font-weight:700; color:#1a1400; font-size: 0.95rem;
+  }
+  .depo-nome{ font-weight:600; font-size: 0.92rem; }
+  .depo-cargo{ color: var(--texto-mudo); font-size: 0.8rem; }
+
+  /* ---------- DIFERENCIAIS ---------- */
+  .dif-grid{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  @media (max-width: 1000px){ .dif-grid{ grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px){ .dif-grid{ grid-template-columns: 1fr; } }
+
+  .dif-item{ text-align:center; padding: 20px; }
+  .dif-item .icon{
+    width: 64px; height:64px;
+    margin: 0 auto 18px;
+    border: 1px solid var(--borda);
+    border-radius: 50%;
+    display:flex; align-items:center; justify-content:center;
+    color: var(--dourado);
+  }
+  .dif-item p{ color: var(--texto-mudo); font-size: 0.9rem; }
+
+  /* ---------- LOCALIZAÇÃO ---------- */
+  .local{ background: var(--grafite); }
+  .local-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items:center;
+  }
+  @media (max-width: 800px){ .local-grid{ grid-template-columns: 1fr; } }
+
+  .local-info{
+    background: var(--preto);
+    border: 1px solid var(--borda);
+    border-radius: 14px;
+    padding: 32px;
+  }
+  .local-info-row{
+    display:flex; gap: 14px; margin-bottom: 20px;
+  }
+  .local-info-row .icon{ color: var(--dourado); flex-shrink:0; width:22px; }
+  .local-info-row strong{ display:block; margin-bottom: 3px; }
+  .local-info-row span{ color: var(--texto-mudo); font-size: 0.92rem; }
+
+  /* Placeholder de mapa em SVG/gradiente - trocar por embed real do Google Maps */
+  .mapa-placeholder{
+    aspect-ratio: 4/3;
+    border-radius: 14px;
+    border: 1px solid var(--borda);
+    background:
+      repeating-linear-gradient(45deg, rgba(201,162,39,0.04) 0 2px, transparent 2px 14px),
+      linear-gradient(160deg, var(--preto), var(--grafite));
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap: 14px;
+    color: var(--texto-mudo);
+    text-align:center;
+    padding: 20px;
+  }
+  .mapa-placeholder svg{ width: 48px; color: var(--dourado); }
+
+  /* ---------- CTA FINAL ---------- */
+  .cta-final{
+    text-align:center;
+    background:
+      radial-gradient(circle at 50% 0%, rgba(201,162,39,0.15), transparent 60%),
+      var(--preto);
+    border-top: 1px solid var(--borda);
+    border-bottom: 1px solid var(--borda);
+  }
+  .cta-final h2{ margin-bottom: 12px; }
+  .cta-final .section-sub{ margin: 0 auto 12px; }
+
+  .urgencia{
+    /* Frase de urgência leve — OPCIONAL: ajuste ou remova conforme a realidade da agenda */
+    display:inline-flex;
+    align-items:center;
+    gap: 8px;
+    background: rgba(201,162,39,0.1);
+    border: 1px solid var(--borda);
+    color: var(--dourado-claro);
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 8px 18px;
+    border-radius: 999px;
+    margin-bottom: 30px;
+  }
+  .urgencia .dot{
+    width:8px; height:8px; border-radius:50%;
+    background: var(--dourado);
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{ opacity:1; transform:scale(1); }
+    50%{ opacity:0.4; transform:scale(0.8); }
+  }
+
+  /* ---------- RODAPÉ ---------- */
+  footer{
+    background: var(--grafite);
+    padding: 40px 0;
+    border-top: 1px solid var(--borda);
+  }
+  .footer-grid{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .footer-logo{
+    font-family: var(--serif);
+    font-weight:700;
+    font-size: 1.1rem;
+  }
+  .footer-logo span{ color: var(--dourado); }
+  footer .copy{ color: var(--texto-mudo); font-size: 0.82rem; }
+  .footer-links{ display:flex; gap: 20px; font-size: 0.85rem; }
+  .footer-links a:hover{ color: var(--dourado); }
+
+  /* ---------- WHATSAPP FLUTUANTE ---------- */
+  .wa-float{
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 60;
+    width: 60px; height:60px;
+    border-radius:50%;
+    background: linear-gradient(135deg, var(--dourado-claro), var(--dourado));
+    display:flex; align-items:center; justify-content:center;
+    box-shadow: 0 10px 30px -8px rgba(201,162,39,0.6);
+    color: #1a1400;
+    transition: transform .25s ease;
+  }
+  .wa-float:hover{ transform: scale(1.08); }
+  .wa-float svg{ width: 30px; height:30px; }
+
+  /* Utilitário de animação (fallback caso Motion não carregue) */
+  .reveal{ opacity:0; transform: translateY(28px); }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER
+============================================================ -->
+<header>
+  <nav class="nav">
+    <div class="logo">✂️ <span>Dom Oscar</span> Barbearia</div>
+    <div class="nav-links">
+      <a href="#servicos">Serviços</a>
+      <a href="#depoimentos">Depoimentos</a>
+      <a href="#diferenciais">Diferenciais</a>
+      <a href="#local">Localização</a>
+    </div>
+    <div class="nav-cta">
+      <!-- {WHATSAPP}: troque o número abaixo pelo WhatsApp real do negócio -->
+      <a class="btn btn-primary" href="https://wa.me/5561999999999?text=Ol%C3%A1!%20Quero%20agendar%20um%20hor%C3%A1rio." target="_blank" rel="noopener">
+        Agendar horário
+      </a>
+    </div>
+  </nav>
+</header>
+
+<!-- ============================================================
+     1. HERO
+============================================================ -->
+<section class="hero" id="hero">
+  <div class="container hero-grid">
+    <div class="reveal" data-reveal>
+      <span class="eyebrow">Site profissional para barbearias</span>
+      <h1>Sua barbearia <span class="highlight">lotada</span> todo dia — sem depender só do boca a boca</h1>
+      <p class="lead">
+        Um site profissional agenda clientes por você, 24 horas por dia, mesmo enquanto
+        você está cortando cabelo. É a diferença entre esperar o cliente aparecer e
+        fazer ele te encontrar primeiro.
+      </p>
+      <div class="hero-actions">
+        <!-- {WHATSAPP}: número fictício de exemplo, fácil de trocar -->
+        <a class="btn btn-primary" href="https://wa.me/5561999999999?text=Ol%C3%A1!%20Quero%20um%20site%20assim%20para%20minha%20barbearia." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.52 0-10 4.48-10 10 0 1.76.46 3.48 1.34 5L2 22l5.14-1.35c1.46.8 3.1 1.22 4.9 1.22 5.52 0 10-4.48 10-10s-4.48-10-10-10zm0 18.15c-1.58 0-3.13-.42-4.48-1.22l-.32-.19-3.05.8.82-2.98-.21-.31A8.13 8.13 0 0 1 3.88 12c0-4.5 3.66-8.15 8.16-8.15S20.2 7.5 20.2 12s-3.66 8.15-8.16 8.15zm4.48-6.11c-.24-.12-1.44-.71-1.66-.79-.22-.08-.39-.12-.55.12-.16.24-.63.79-.78.95-.14.16-.29.18-.53.06-.24-.12-1.02-.38-1.94-1.2-.72-.64-1.2-1.43-1.34-1.67-.14-.24-.02-.37.11-.49.11-.11.24-.29.36-.43.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.55-1.33-.76-1.82-.2-.48-.4-.42-.55-.42h-.47c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.11.16 1.53.1.47-.07 1.44-.59 1.64-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.46-.28z"/></svg>
+          Quero um site assim
+        </a>
+        <a class="btn btn-outline" href="#servicos">Ver o que ele resolve</a>
+      </div>
+      <div class="hero-note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+        Modelo de demonstração — pronto para adaptar à identidade da sua barbearia
+      </div>
+    </div>
+
+    <div class="hero-visual reveal" data-reveal>
+      <!-- SVG inline no lugar de foto real do barbeiro/loja. Trocar por imagem real do ambiente. -->
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="100" cy="70" r="34" stroke="currentColor" stroke-width="4"/>
+        <path d="M40 175c8-38 34-58 60-58s52 20 60 58" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+        <path d="M70 55c8 10 22 14 30 6M130 55c-8 10-22 14-30 6" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     2. PROBLEMA / AGITAÇÃO
+============================================================ -->
+<section class="problema" id="problema">
+  <div class="container">
+    <span class="eyebrow reveal" data-reveal>O que está em jogo</span>
+    <h2 class="reveal" data-reveal>O que uma barbearia sem site perde todos os dias</h2>
+    <p class="section-sub reveal" data-reveal>
+      Não é falta de talento, é falta de visibilidade. Enquanto isso acontece, o cliente vai
+      parar na concorrência que aparece primeiro.
+    </p>
+
+    <div class="problema-grid">
+      <div class="problema-card reveal" data-reveal>
+        <div class="icon-x">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        </div>
+        <strong>Cliente pesquisa e não encontra</strong>
+        <p>Quem procura "barbearia perto de mim" no Google acaba indo para quem aparece — e sem site, esse lugar não é o seu.</p>
+      </div>
+      <div class="problema-card reveal" data-reveal>
+        <div class="icon-x">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>
+        </div>
+        <strong>Agenda bagunçada no WhatsApp</strong>
+        <p>Mensagens se perdem, horários se sobrepõem e o barbeiro perde tempo respondendo em vez de cortar cabelo.</p>
+      </div>
+      <div class="problema-card reveal" data-reveal>
+        <div class="icon-x">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h.01M15 9h.01M9 15c1 1 5 1 6 0"/></svg>
+        </div>
+        <strong>Trabalho sem vitrine</strong>
+        <p>Cortes incríveis ficam só no feed pessoal, sem uma vitrine profissional que convença quem ainda não te conhece.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     3. SOLUÇÃO / SERVIÇOS
+============================================================ -->
+<section id="servicos">
+  <div class="container">
+    <span class="eyebrow reveal" data-reveal>A solução</span>
+    <h2 class="reveal" data-reveal>O que um site profissional resolve pra você</h2>
+    <p class="section-sub reveal" data-reveal>
+      Tudo o que hoje depende de mensagem, sorte e boca a boca, organizado em um lugar só —
+      trabalhando por você mesmo fora do expediente.
+    </p>
+
+    <div class="cards-grid">
+      <div class="service-card reveal" data-reveal>
+        <div class="icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        </div>
+        <h3>Agendamento facilitado</h3>
+        <p>Cliente escolhe horário e serviço sozinho, sem trocar 10 mensagens até fechar.</p>
+      </div>
+      <div class="service-card reveal" data-reveal>
+        <div class="icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        </div>
+        <h3>Galeria de cortes</h3>
+        <p>Mostre o padrão de qualidade do seu trabalho antes mesmo do cliente sentar na cadeira.</p>
+      </div>
+      <div class="service-card reveal" data-reveal>
+        <div class="icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <h3>Localização clara</h3>
+        <p>Endereço, referência e rota direta para quem ainda não conhece o caminho até você.</p>
+      </div>
+      <div class="service-card reveal" data-reveal>
+        <div class="icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        </div>
+        <h3>Presença profissional 24h</h3>
+        <p>Seu negócio continua vendendo e agendando mesmo de madrugada ou no dia de folga.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     4. PROVA SOCIAL / DEPOIMENTOS
+============================================================ -->
+<section class="depoimentos" id="depoimentos">
+  <div class="container">
+    <span class="eyebrow reveal" data-reveal>Prova social</span>
+    <h2 class="reveal" data-reveal>Quem já passou pela cadeira</h2>
+    <p class="section-sub reveal" data-reveal>Depoimentos de exemplo — substitua pelos relatos reais dos seus clientes.</p>
+
+    <div class="depo-grid">
+      <!-- SUBSTITUIR por depoimento real do cliente -->
+      <div class="depo-card reveal" data-reveal>
+        <div class="stars">★★★★★</div>
+        <p class="quote">"Marquei pelo site em menos de um minuto e fui atendido no horário exato. Nunca mais voltei a agendar por mensagem."</p>
+        <div class="depo-autor">
+          <div class="depo-avatar">C</div>
+          <div>
+            <div class="depo-nome">Cliente satisfeito</div>
+            <div class="depo-cargo">Cliente há 1 ano</div>
+          </div>
+        </div>
+      </div>
+      <!-- SUBSTITUIR por depoimento real do cliente -->
+      <div class="depo-card reveal" data-reveal>
+        <div class="stars">★★★★★</div>
+        <p class="quote">"Antes eu nem sabia onde ficava. Vi o site, olhei os cortes na galeria e já saí de lá cliente fiel."</p>
+        <div class="depo-autor">
+          <div class="depo-avatar">C</div>
+          <div>
+            <div class="depo-nome">Cliente satisfeito</div>
+            <div class="depo-cargo">Cliente novo</div>
+          </div>
+        </div>
+      </div>
+      <!-- SUBSTITUIR por depoimento real do cliente -->
+      <div class="depo-card reveal" data-reveal>
+        <div class="stars">★★★★★</div>
+        <p class="quote">"Ambiente excelente, profissionais atenciosos e o agendamento online facilitou muito minha rotina corrida."</p>
+        <div class="depo-autor">
+          <div class="depo-avatar">C</div>
+          <div>
+            <div class="depo-nome">Cliente satisfeito</div>
+            <div class="depo-cargo">Cliente recorrente</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     5. DIFERENCIAIS
+============================================================ -->
+<section id="diferenciais">
+  <div class="container">
+    <span class="eyebrow reveal" data-reveal>Por que escolher a gente</span>
+    <h2 class="reveal" data-reveal>Diferenciais que fazem o cliente voltar</h2>
+
+    <div class="dif-grid">
+      <div class="dif-item reveal" data-reveal>
+        <div class="icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.6 1.6 6.8L12 16.9 5.8 20.3l1.6-6.8L2.2 8.9l6.9-.6z"/></svg>
+        </div>
+        <h3>Profissionais experientes</h3>
+        <p>Equipe treinada e atualizada com as técnicas e tendências mais recentes.</p>
+      </div>
+      <div class="dif-item reveal" data-reveal>
+        <div class="icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-6 9 6v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 21V12h6v9"/></svg>
+        </div>
+        <h3>Ambiente pensado pra você</h3>
+        <p>Espaço confortável, limpo e com aquele clima clássico de barbearia de verdade.</p>
+      </div>
+      <div class="dif-item reveal" data-reveal>
+        <div class="icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        </div>
+        <h3>Pontualidade</h3>
+        <p>Horário marcado é horário respeitado — sem espera desnecessária na cadeira ao lado.</p>
+      </div>
+      <div class="dif-item reveal" data-reveal>
+        <div class="icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
+        </div>
+        <h3>Agendamento fácil</h3>
+        <p>Poucos cliques e o horário já está garantido, sem burocracia nenhuma.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     6. LOCALIZAÇÃO
+============================================================ -->
+<section class="local" id="local">
+  <div class="container">
+    <span class="eyebrow reveal" data-reveal>Onde estamos</span>
+    <h2 class="reveal" data-reveal>Fácil de encontrar, fácil de chegar</h2>
+    <p class="section-sub reveal" data-reveal>Substitua os dados abaixo pelo endereço real da sua barbearia.</p>
+
+    <div class="local-grid">
+      <div class="local-info reveal" data-reveal>
+        <div class="local-info-row">
+          <svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <div>
+            <strong>Endereço</strong>
+            <!-- {ENDEREÇO/BAIRRO}: troque pelo endereço real -->
+            <span>Quadra 105, Asa Sul — Brasília, DF (exemplo)</span>
+          </div>
+        </div>
+        <div class="local-info-row">
+          <svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+          <div>
+            <strong>Horário de funcionamento</strong>
+            <span>Terça a sábado, 9h às 19h (exemplo)</span>
+          </div>
+        </div>
+        <div class="local-info-row">
+          <svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.04 2c-5.52 0-10 4.48-10 10 0 1.76.46 3.48 1.34 5L2 22l5.14-1.35c1.46.8 3.1 1.22 4.9 1.22 5.52 0 10-4.48 10-10s-4.48-10-10-10z"/></svg>
+          <div>
+            <strong>WhatsApp</strong>
+            <!-- {WHATSAPP}: número fictício de exemplo, fácil de trocar -->
+            <span>(61) 99999-9999</span>
+          </div>
+        </div>
+        <!-- Botão "Como chegar" - placeholder: trocar pelo link real do Google Maps do negócio -->
+        <a class="btn btn-primary" href="https://maps.google.com/?q=Barbearia+Dom+Oscar+Brasilia+DF" target="_blank" rel="noopener" style="margin-top:10px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M9 20l-5.5 2 2-5.5L20 3z"/></svg>
+          Como chegar
+        </a>
+      </div>
+
+      <!-- Placeholder de mapa: trocar por embed real do Google Maps (iframe com endereço do negócio) -->
+      <div class="mapa-placeholder reveal" data-reveal>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>Espaço reservado para o mapa do Google Maps<br>(inserir endereço real do negócio)</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     7. CTA FINAL
+============================================================ -->
+<section class="cta-final" id="cta-final">
+  <div class="container" style="display:flex; flex-direction:column; align-items:center;">
+    <!-- Frase de urgência OPCIONAL: ajuste conforme a disponibilidade real de agenda, ou remova este bloco -->
+    <div class="urgencia reveal" data-reveal>
+      <span class="dot"></span>
+      Poucos horários disponíveis essa semana
+    </div>
+    <h2 class="reveal" data-reveal>Pronto pra ter uma barbearia sempre cheia?</h2>
+    <p class="section-sub reveal" data-reveal>
+      Fale agora e garanta um site que trabalha por você — captando e agendando clientes
+      mesmo fora do horário de expediente.
+    </p>
+    <!-- {WHATSAPP}: número fictício de exemplo, fácil de trocar -->
+    <a class="btn btn-primary reveal" data-reveal href="https://wa.me/5561999999999?text=Ol%C3%A1!%20Quero%20agendar%20um%20hor%C3%A1rio%20na%20barbearia." target="_blank" rel="noopener" style="font-size:1.1rem; padding:20px 40px;">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M12.04 2c-5.52 0-10 4.48-10 10 0 1.76.46 3.48 1.34 5L2 22l5.14-1.35c1.46.8 3.1 1.22 4.9 1.22 5.52 0 10-4.48 10-10s-4.48-10-10-10zm0 18.15c-1.58 0-3.13-.42-4.48-1.22l-.32-.19-3.05.8.82-2.98-.21-.31A8.13 8.13 0 0 1 3.88 12c0-4.5 3.66-8.15 8.16-8.15S20.2 7.5 20.2 12s-3.66 8.15-8.16 8.15zm4.48-6.11c-.24-.12-1.44-.71-1.66-.79-.22-.08-.39-.12-.55.12-.16.24-.63.79-.78.95-.14.16-.29.18-.53.06-.24-.12-1.02-.38-1.94-1.2-.72-.64-1.2-1.43-1.34-1.67-.14-.24-.02-.37.11-.49.11-.11.24-.29.36-.43.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.55-1.33-.76-1.82-.2-.48-.4-.42-.55-.42h-.47c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.11.16 1.53.1.47-.07 1.44-.59 1.64-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.46-.28z"/></svg>
+      Falar no WhatsApp agora
+    </a>
+  </div>
+</section>
+
+<!-- ============================================================
+     RODAPÉ
+============================================================ -->
+<footer>
+  <div class="container footer-grid">
+    <div class="footer-logo">✂️ <span>Dom Oscar</span> Barbearia</div>
+    <div class="footer-links">
+      <a href="#servicos">Serviços</a>
+      <a href="#depoimentos">Depoimentos</a>
+      <a href="#local">Localização</a>
+    </div>
+    <div class="copy">© 2026 {NOME_DO_NEGOCIO} — Todos os direitos reservados.</div>
+  </div>
+</footer>
+
+<!-- Botão flutuante de WhatsApp -->
+<!-- {WHATSAPP}: número fictício de exemplo, fácil de trocar -->
+<a class="wa-float" href="https://wa.me/5561999999999?text=Ol%C3%A1!%20Vim%20pelo%20site." target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.52 0-10 4.48-10 10 0 1.76.46 3.48 1.34 5L2 22l5.14-1.35c1.46.8 3.1 1.22 4.9 1.22 5.52 0 10-4.48 10-10s-4.48-10-10-10zm0 18.15c-1.58 0-3.13-.42-4.48-1.22l-.32-.19-3.05.8.82-2.98-.21-.31A8.13 8.13 0 0 1 3.88 12c0-4.5 3.66-8.15 8.16-8.15S20.2 7.5 20.2 12s-3.66 8.15-8.16 8.15zm4.48-6.11c-.24-.12-1.44-.71-1.66-.79-.22-.08-.39-.12-.55.12-.16.24-.63.79-.78.95-.14.16-.29.18-.53.06-.24-.12-1.02-.38-1.94-1.2-.72-.64-1.2-1.43-1.34-1.67-.14-.24-.02-.37.11-.49.11-.11.24-.29.36-.43.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.55-1.33-.76-1.82-.2-.48-.4-.42-.55-.42h-.47c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.11.16 1.53.1.47-.07 1.44-.59 1.64-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.46-.28z"/></svg>
+</a>
+
+<script>
+  // ============================================================
+  // ANIMAÇÕES DE ENTRADA (Motion) — fade + slide up ao rolar
+  // Fallback: se a lib não carregar, remove a classe reveal para
+  // garantir que o conteúdo continue visível.
+  // ============================================================
+  (function(){
+    var elements = document.querySelectorAll('[data-reveal]');
+
+    if (window.Motion && typeof window.Motion.inView === 'function') {
+      elements.forEach(function(el, i){
+        window.Motion.inView(el, function(){
+          window.Motion.animate(
+            el,
+            { opacity: [0, 1], transform: ['translateY(28px)', 'translateY(0px)'] },
+            { duration: 0.7, delay: (i % 4) * 0.08, easing: [0.22, 1, 0.36, 1] }
+          );
+        }, { margin: '-10% 0px -10% 0px' });
+      });
+    } else {
+      elements.forEach(function(el){ el.classList.remove('reveal'); });
+    }
+  })();
+
+  // ============================================================
+  // MICROINTERAÇÃO DE HOVER nos botões (leve "press" ao clicar)
+  // ============================================================
+  (function(){
+    if (!window.Motion || typeof window.Motion.animate !== 'function') return;
+    document.querySelectorAll('.btn').forEach(function(btn){
+      btn.addEventListener('mousedown', function(){
+        window.Motion.animate(btn, { scale: 0.96 }, { duration: 0.15 });
+      });
+      btn.addEventListener('mouseup', function(){
+        window.Motion.animate(btn, { scale: 1 }, { duration: 0.2 });
+      });
+      btn.addEventListener('mouseleave', function(){
+        window.Motion.animate(btn, { scale: 1 }, { duration: 0.2 });
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>
