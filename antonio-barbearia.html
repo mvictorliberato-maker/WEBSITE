@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Antonio Barbearia — Asa Sul, Brasília</title>
+<meta name="description" content="Antonio Barbearia na Asa Sul, Brasília-DF. Corte, barba, sobrancelha e combos. Agende pelo WhatsApp.">
+
+<!-- ============================================================
+     GOOGLE FONTS
+     Playfair Display -> nome da marca / headline (serifada, clássica)
+     Inter -> texto corrido (sans-serif limpa)
+============================================================ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- ============================================================
+     MOTION (motion.dev para vanilla JS) via CDN
+     Animações de entrada (fade + slide) e hover sutil em botões/cards
+============================================================ -->
+<script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
+
+<style>
+  /* ============================================================
+     VARIÁVEIS DE MARCA
+     Nome, endereço e WhatsApp já preenchidos com os dados reais da
+     Antonio Barbearia.
+  ============================================================ */
+  :root{
+    --preto: #0E0D0C;
+    --grafite: #1A1816;
+    --grafite-2: #221F1C;
+    --couro: #3E2C21;
+    --dourado: #C9962C;
+    --dourado-claro: #E4B355;
+    --texto-claro: #F3EEE6;
+    --texto-mudo: #B3A99B;
+    --borda: rgba(201,150,44,0.25);
+    --sombra: 0 14px 34px -14px rgba(201,150,44,0.35);
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background: var(--preto);
+    color: var(--texto-claro);
+    font-family: var(--sans);
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  img, svg{ display:block; max-width:100%; }
+  a{ color:inherit; text-decoration:none; }
+
+  .container{
+    width:100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  section{ position:relative; padding: 84px 0; }
+
+  .eyebrow{
+    display:inline-block;
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--dourado);
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+
+  h1, h2, h3{
+    font-family: var(--serif);
+    font-weight: 800;
+    color: var(--texto-claro);
+    line-height: 1.18;
+  }
+
+  h2{ font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 14px; }
+  h3{ font-size: 1.25rem; margin-bottom: 8px; }
+
+  .section-sub{
+    color: var(--texto-mudo);
+    max-width: 620px;
+    font-size: 1.05rem;
+    margin-bottom: 44px;
+  }
+  .center{ text-align:center; margin-left:auto; margin-right:auto; }
+
+  /* ---------- BOTÕES ---------- */
+  .btn{
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 32px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
+    font-family: var(--sans);
+  }
+
+  .btn-primary{
+    background: linear-gradient(135deg, var(--dourado-claro), var(--dourado));
+    color: #1a1400;
+    box-shadow: var(--sombra);
+  }
+  .btn-primary:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 18px 40px -12px rgba(201,150,44,0.5);
+  }
+
+  .btn-outline{
+    background: transparent;
+    color: var(--texto-claro);
+    border: 1px solid var(--borda);
+  }
+  .btn-outline:hover{
+    border-color: var(--dourado);
+    background: rgba(201,150,44,0.08);
+    transform: translateY(-2px);
+  }
+
+  .btn svg{ width:20px; height:20px; }
+
+  /* ---------- HEADER / NAV ---------- */
+  header{
+    position: fixed;
+    top:0; left:0; right:0;
+    z-index: 50;
+    background: rgba(14,13,12,0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--borda);
+  }
+  .nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding: 16px 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .logo{
+    font-family: var(--serif);
+    font-weight: 800;
+    font-size: 1.2rem;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .logo span{ color: var(--dourado); }
+  .nav-links{
+    display:flex;
+    gap: 28px;
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--texto-mudo);
+  }
+  .nav-links a:hover{ color: var(--dourado); }
+  .nav-cta .btn{ padding: 10px 20px; font-size: 0.86rem; }
+
+  @media (max-width: 760px){
+    .nav-links{ display:none; }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height: 100vh;
+    display:flex;
+    align-items:center;
+    padding-top: 120px;
+    background:
+      radial-gradient(circle at 18% 25%, rgba(201,150,44,0.14), transparent 45%),
+      radial-gradient(circle at 82% 78%, rgba(62,44,33,0.5), transparent 55%),
+      var(--preto);
+    position: relative;
+    overflow:hidden;
+  }
+
+  .hero-grid{
+    display:grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 48px;
+    align-items:center;
+  }
+  @media (max-width: 900px){ .hero-grid{ grid-template-columns: 1fr; } }
+
+  .hero h1{
+    font-size: clamp(2.2rem, 5.2vw, 3.6rem);
+    margin-bottom: 20px;
+  }
+  .hero h1 .highlight{ color: var(--dourado); font-style: italic; }
+
+  .hero p.lead{
+    color: var(--texto-mudo);
+    font-size: 1.15rem;
+    max-width: 500px;
+    margin-bottom: 32px;
+  }
+
+  .hero-actions{ display:flex; gap: 16px; flex-wrap: wrap; margin-bottom: 26px; }
+
+  .hero-note{
+    display:flex;
+    align-items:center;
+    gap: 10px;
+    color: var(--texto-mudo);
+    font-size: 0.88rem;
+  }
+  .hero-note svg{ width:16px; height:16px; color: var(--dourado); flex-shrink:0; }
+
+  /* Visual ilustrativo no lugar de foto real da barbearia */
+  .hero-visual{
+    position: relative;
+    aspect-ratio: 4/5;
+    border-radius: 16px;
+    border: 1px solid var(--borda);
+    background: linear-gradient(160deg, var(--grafite) 0%, var(--couro) 120%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+  .hero-visual::before{
+    content:'';
+    position:absolute;
+    width: 220%; height: 220%;
+    background: conic-gradient(from 0deg, transparent 0%, rgba(201,150,44,0.15) 15%, transparent 30%);
+    animation: spin 14s linear infinite;
+  }
+  @keyframes spin{ to{ transform: rotate(360deg); } }
+  .hero-visual svg{ width: 46%; position:relative; z-index:2; color: var(--dourado); }
+
+  /* ---------- SOBRE ---------- */
+  .sobre{ background: var(--grafite); }
+  .sobre-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items:center;
+  }
+  @media (max-width: 860px){ .sobre-grid{ grid-template-columns: 1fr; } }
+
+  .sobre-visual{
+    aspect-ratio: 16/11;
+    border-radius: 16px;
+    border: 1px solid var(--borda);
+    background: linear-gradient(150deg, var(--couro), var(--preto));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .sobre-visual svg{ width: 34%; color: var(--dourado); }
+
+  /* ---------- SERVIÇOS ---------- */
+  .serv-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+  @media (max-width: 900px){ .serv-grid{ grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px){ .serv-grid{ grid-template-columns: 1fr; } }
+
+  .serv-card{
+    background: var(--grafite);
+    border: 1px solid var(--borda);
+    border-radius: 14px;
+    padding: 28px 24px;
+    transition: transform .3s ease, border-color .3s ease, background .3s ease;
+  }
+  .serv-card:hover{
+    transform: translateY(-6px);
+    border-color: var(--dourado);
+    background: var(--grafite-2);
+  }
+  .serv-card .icon{
+    width:50px; height:50px;
+    border-radius: 12px;
+    background: rgba(201,150,44,0.12);
+    color: var(--dourado);
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom: 18px;
+  }
+  .serv-card p{ color: var(--texto-mudo); font-size: 0.9rem; }
+
+  /* ---------- DIFERENCIAIS ---------- */
+  .dif-grid{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+  }
+  @media (max-width: 1000px){ .dif-grid{ grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px){ .dif-grid{ grid-template-columns: 1fr; } }
+
+  .dif-item{ text-align:center; padding: 18px; }
+  .dif-item .icon{
+    width: 64px; height:64px;
+    margin: 0 auto 16px;
+    border: 1px solid var(--borda);
+    border-radius: 50%;
+    display:flex; align-items:center; justify-content:center;
+    color: var(--dourado);
+  }
+  .dif-item p{ color: var(--texto-mudo); font-size: 0.9rem; }
+
+  /* ---------- LOCALIZAÇÃO ---------- */
+  .local{ background: var(--grafite); }
+  .local-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items:stretch;
+  }
+  @media (max-width: 860px){ .local-grid{ grid-template-columns: 1fr; } }
+
+  .local-info{
+    background: var(--preto);
+    border: 1px solid var(--borda);
+    border-radius: 16px;
+    padding: 32px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+  .local-row{ display:flex; gap: 14px; margin-bottom: 20px; }
+  .local-row .icon{ color: var(--dourado); flex-shrink:0; width:22px; }
+  .local-row strong{ display:block; margin-bottom: 3px; }
+  .local-row span{ color: var(--texto-mudo); font-size: 0.92rem; }
+
+  /* Placeholder de mapa em SVG/gradiente - trocar por embed real do Google Maps */
+  .mapa-placeholder{
+    aspect-ratio: 4/3;
+    border-radius: 16px;
+    border: 1px solid var(--borda);
+    background:
+      repeating-linear-gradient(45deg, rgba(201,150,44,0.05) 0 2px, transparent 2px 14px),
+      linear-gradient(160deg, var(--preto), var(--grafite));
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap: 14px;
+    color: var(--texto-mudo);
+    text-align:center;
+    padding: 20px;
+  }
+  .mapa-placeholder svg{ width: 46px; color: var(--dourado); }
+
+  /* ---------- CTA FINAL ---------- */
+  .cta-final{
+    text-align:center;
+    background:
+      radial-gradient(circle at 50% 0%, rgba(201,150,44,0.16), transparent 60%),
+      var(--preto);
+    border-top: 1px solid var(--borda);
+    border-bottom: 1px solid var(--borda);
+  }
+  .cta-final h2{ margin-bottom: 12px; }
+  .cta-final .section-sub{ margin: 0 auto 30px; }
+  .cta-final .numero{
+    margin-top: 22px;
+    color: var(--texto-mudo);
+    font-size: 0.95rem;
+  }
+  .cta-final .numero strong{ color: var(--dourado); font-weight:700; }
+
+  /* ---------- RODAPÉ ---------- */
+  footer{
+    background: var(--grafite);
+    padding: 32px 0;
+    border-top: 1px solid var(--borda);
+    text-align:center;
+    font-size: 0.85rem;
+    color: var(--texto-mudo);
+  }
+  footer strong{ color: var(--dourado); font-family: var(--serif); }
+
+  /* ---------- WHATSAPP FLUTUANTE ---------- */
+  .wa-float{
+    position: fixed;
+    bottom: 22px;
+    right: 22px;
+    z-index: 60;
+    width: 60px; height:60px;
+    border-radius:50%;
+    background: linear-gradient(135deg, var(--dourado-claro), var(--dourado));
+    display:flex; align-items:center; justify-content:center;
+    box-shadow: 0 12px 30px -8px rgba(201,150,44,0.6);
+    color: #1a1400;
+    transition: transform .25s ease;
+  }
+  .wa-float:hover{ transform: scale(1.08); }
+  .wa-float svg{ width: 30px; height:30px; }
+
+  /* Utilitário de animação (fallback caso Motion não carregue) */
+  .reveal{ opacity:0; transform: translateY(26px); }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER
+============================================================ -->
+<header>
+  <nav class="nav">
+    <div class="logo">Antonio <span>Barbearia</span></div>
+    <div class="nav-links">
+      <a href="#sobre">Sobre</a>
+      <a href="#servicos">Serviços</a>
+      <a href="#diferenciais">Diferenciais</a>
+      <a href="#local">Localização</a>
+    </div>
+    <div class="nav-cta">
+      <a class="btn btn-primary" href="https://wa.me/5561998781714?text=Ol%C3%A1!%20Quero%20agendar%20um%20hor%C3%A1rio." target="_blank" rel="noopener">
+        Agendar
+      </a>
+    </div>
+  </nav>
+</header>
+
+<!-- ============================================================
+     1. HERO
+============================================================ -->
+<section class="hero" id="hero">
+  <div class="container hero-grid">
+    <div class="reveal" data-reveal>
+      <span class="eyebrow">Antonio Barbearia • Asa Sul</span>
+      <h1>Seu estilo, <span class="highlight">no seu tempo</span></h1>
+      <p class="lead">
+        Corte e barba com técnica, atenção aos detalhes e aquele acabamento que só
+        quem entende do assunto entrega. Marque seu horário e sinta a diferença.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="https://wa.me/5561998781714?text=Ol%C3%A1!%20Quero%20agendar%20um%20hor%C3%A1rio%20na%20Antonio%20Barbearia." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.52 0-10 4.48-10 10 0 1.76.46 3.48 1.34 5L2 22l5.14-1.35c1.46.8 3.1 1.22 4.9 1.22 5.52 0 10-4.48 10-10s-4.48-10-10-10zm0 18.15c-1.58 0-3.13-.42-4.48-1.22l-.32-.19-3.05.8.82-2.98-.21-.31A8.13 8.13 0 0 1 3.88 12c0-4.5 3.66-8.15 8.16-8.15S20.2 7.5 20.2 12s-3.66 8.15-8.16 8.15zm4.48-6.11c-.24-.12-1.44-.71-1.66-.79-.22-.08-.39-.12-.55.12-.16.24-.63.79-.78.95-.14.16-.29.18-.53.06-.24-.12-1.02-.38-1.94-1.2-.72-.64-1.2-1.43-1.34-1.67-.14-.24-.02-.37.11-.49.11-.11.24-.29.36-.43.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.55-1.33-.76-1.82-.2-.48-.4-.42-.55-.42h-.47c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.11.16 1.53.1.47-.07 1.44-.59 1.64-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.46-.28z"/></svg>
+          Agendar pelo WhatsApp
+        </a>
+        <a class="btn btn-outline" href="#servicos">Ver serviços</a>
+      </div>
+      <div class="hero-note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+        Atendimento na Asa Sul, Brasília-DF
+      </div>
+    </div>
+
+    <!-- SVG inline no lugar de foto real da barbearia. Trocar por imagem real do ambiente/equipe. -->
+    <div class="hero-visual reveal" data-reveal>
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="100" cy="70" r="34" stroke="currentColor" stroke-width="4"/>
+        <path d="M40 175c8-38 34-58 60-58s52 20 60 58" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+        <path d="M70 55c8 10 22 14 30 6M130 55c-8 10-22 14-30 6" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     2. SOBRE
+============================================================ -->
+<section class="sobre" id="sobre">
+  <div class="container sobre-grid">
+    <!-- SVG ilustrativo no lugar de foto real do interior da barbearia. Trocar depois. -->
+    <div class="sobre-visual reveal" data-reveal>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+        <path d="M6 4l4 4M18 4l-4 4M6 20l4-4M18 20l-4-4"/>
+        <circle cx="12" cy="12" r="3.2"/>
+        <path d="M12 8.8V4M12 15.2V20M8.8 12H4M15.2 12H20"/>
+      </svg>
+    </div>
+    <div class="reveal" data-reveal>
+      <span class="eyebrow">Sobre a barbearia</span>
+      <h2>Referência em corte e barba na Asa Sul</h2>
+      <p class="section-sub" style="margin-bottom:0;">
+        A Antonio Barbearia nasceu para oferecer aquele atendimento que combina tradição
+        e cuidado: técnica apurada, atenção aos detalhes e o respeito pelo tempo de cada
+        cliente. Aqui, cada corte é feito com a dedicação de quem entende que estilo é
+        também uma forma de se cuidar.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     3. SERVIÇOS
+============================================================ -->
+<section id="servicos">
+  <div class="container">
+    <span class="eyebrow reveal" data-reveal>Nossos serviços</span>
+    <h2 class="reveal" data-reveal>Cuidado completo para o seu visual</h2>
+    <p class="section-sub reveal" data-reveal>Serviços pensados para você sair daqui se sentindo no seu melhor.</p>
+
+    <div class="serv-grid">
+      <div class="serv-card reveal" data-reveal>
+        <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l3 3-3 3M13 6l5 6-5 6"/></svg></div>
+        <h3>Corte Masculino</h3>
+        <p>Cortes clássicos e modernos, com acabamento na régua e na navalha.</p>
+      </div>
+      <div class="serv-card reveal" data-reveal>
+        <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 15c0-3.5 3.4-6.5 7.5-6.5s7.5 3 7.5 6.5c0 3-2.5 5-4 5.5-.5.15-1-.2-1-.7v-1.2c0-.5-.4-.9-.9-.9h-3.2c-.5 0-.9.4-.9.9v1.2c0 .5-.5.85-1 .7-1.5-.5-4-2.5-4-5.5z"/></svg></div>
+        <h3>Barba</h3>
+        <p>Desenho e acabamento de barba com toalha quente e produtos de qualidade.</p>
+      </div>
+      <div class="serv-card reveal" data-reveal>
+        <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10c2-4 6-6 8-6s6 2 8 6"/></svg></div>
+        <h3>Sobrancelha</h3>
+        <p>Design de sobrancelha na navalha ou pinça, valorizando a expressão do rosto.</p>
+      </div>
+      <div class="serv-card reveal" data-reveal>
+        <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+        <h3>Combo Corte + Barba</h3>
+        <p>O pacote completo para quem quer sair pronto pra qualquer ocasião.</p>
+      </div>
+      <div class="serv-card reveal" data-reveal>
+        <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2c-3 3-3 6 0 9s3 6 0 9M8 6c-1.5 2-1.5 3 0 5M16 6c1.5 2 1.5 3 0 5"/></svg></div>
+        <h3>Hidratação</h3>
+        <p>Tratamento capilar para deixar o cabelo saudável, macio e com mais brilho.</p>
+      </div>
+      <div class="serv-card reveal" data-reveal>
+        <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 8v8"/></svg></div>
+        <h3>Acabamento (Pézinho)</h3>
+        <p>Manutenção rápida do corte para manter o visual sempre em dia.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     4. DIFERENCIAIS
+============================================================ -->
+<section id="diferenciais">
+  <div class="container">
+    <span class="eyebrow reveal" data-reveal>Por que escolher a gente</span>
+    <h2 class="reveal" data-reveal>Diferenciais que fazem o cliente voltar</h2>
+
+    <div class="dif-grid">
+      <div class="dif-item reveal" data-reveal>
+        <div class="icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.6 1.6 6.8L12 16.9 5.8 20.3l1.6-6.8L2.2 8.9l6.9-.6z"/></svg></div>
+        <h3>Profissionais experientes</h3>
+        <p>Equipe treinada e sempre atualizada com as tendências do momento.</p>
+      </div>
+      <div class="dif-item reveal" data-reveal>
+        <div class="icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a4 4 0 0 1 4 4c0 2-1 3-2 4h-4c-1-1-2-2-2-4a4 4 0 0 1 4-4z"/><path d="M9 15h6l1 6H8z"/></svg></div>
+        <h3>Ambiente climatizado</h3>
+        <p>Espaço confortável para você relaxar enquanto cuida do visual.</p>
+      </div>
+      <div class="dif-item reveal" data-reveal>
+        <div class="icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+        <h3>Agendamento fácil</h3>
+        <p>Marque seu horário rapidamente, direto pelo WhatsApp.</p>
+      </div>
+      <div class="dif-item reveal" data-reveal>
+        <div class="icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+        <h3>Atendimento pontual</h3>
+        <p>Seu horário é respeitado, sem espera desnecessária na cadeira ao lado.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     5. LOCALIZAÇÃO
+============================================================ -->
+<section class="local" id="local">
+  <div class="container">
+    <span class="eyebrow reveal" data-reveal>Onde estamos</span>
+    <h2 class="reveal" data-reveal>Fácil de encontrar na Asa Sul</h2>
+    <p class="section-sub reveal" data-reveal>Venha nos conhecer pessoalmente ou fale com a gente antes pelo WhatsApp.</p>
+
+    <div class="local-grid">
+      <div class="local-info reveal" data-reveal>
+        <div class="local-row">
+          <svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <div>
+            <strong>Endereço</strong>
+            <span>CLS 313, Bloco C, Loja 3 — Asa Sul, Brasília - DF</span>
+          </div>
+        </div>
+        <div class="local-row">
+          <svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.04 2c-5.52 0-10 4.48-10 10 0 1.76.46 3.48 1.34 5L2 22l5.14-1.35c1.46.8 3.1 1.22 4.9 1.22 5.52 0 10-4.48 10-10s-4.48-10-10-10z"/></svg>
+          <div>
+            <strong>WhatsApp</strong>
+            <span>(61) 99878-1714</span>
+          </div>
+        </div>
+        <a class="btn btn-primary" href="https://www.google.com/maps/search/?api=1&query=CLS+313%2C+Bloco+C%2C+Loja+3%2C+Asa+Sul%2C+Bras%C3%ADlia+-+DF" target="_blank" rel="noopener" style="margin-top:10px; align-self:flex-start;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M9 20l-5.5 2 2-5.5L20 3z"/></svg>
+          Como chegar
+        </a>
+      </div>
+
+      <!-- Placeholder de mapa: trocar por embed real do Google Maps (iframe com endereço do negócio) -->
+      <div class="mapa-placeholder reveal" data-reveal>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>Espaço reservado para o mapa do Google Maps<br>(inserir endereço real da barbearia)</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     6. CONTATO / CTA FINAL
+============================================================ -->
+<section class="cta-final">
+  <div class="container" style="display:flex; flex-direction:column; align-items:center;">
+    <h2 class="reveal" data-reveal>Pronto para dar um upgrade no seu visual?</h2>
+    <p class="section-sub reveal" data-reveal>Fale agora mesmo com a gente e agende seu horário.</p>
+    <a class="btn btn-primary reveal" data-reveal href="https://wa.me/5561998781714?text=Ol%C3%A1!%20Quero%20agendar%20um%20hor%C3%A1rio%20na%20Antonio%20Barbearia." target="_blank" rel="noopener" style="font-size:1.05rem; padding:18px 36px;">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12.04 2c-5.52 0-10 4.48-10 10 0 1.76.46 3.48 1.34 5L2 22l5.14-1.35c1.46.8 3.1 1.22 4.9 1.22 5.52 0 10-4.48 10-10s-4.48-10-10-10zm0 18.15c-1.58 0-3.13-.42-4.48-1.22l-.32-.19-3.05.8.82-2.98-.21-.31A8.13 8.13 0 0 1 3.88 12c0-4.5 3.66-8.15 8.16-8.15S20.2 7.5 20.2 12s-3.66 8.15-8.16 8.15zm4.48-6.11c-.24-.12-1.44-.71-1.66-.79-.22-.08-.39-.12-.55.12-.16.24-.63.79-.78.95-.14.16-.29.18-.53.06-.24-.12-1.02-.38-1.94-1.2-.72-.64-1.2-1.43-1.34-1.67-.14-.24-.02-.37.11-.49.11-.11.24-.29.36-.43.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.55-1.33-.76-1.82-.2-.48-.4-.42-.55-.42h-.47c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.11.16 1.53.1.47-.07 1.44-.59 1.64-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.46-.28z"/></svg>
+      Agendar pelo WhatsApp
+    </a>
+    <p class="numero reveal" data-reveal>Ou ligue/chame no número: <strong>(61) 99878-1714</strong></p>
+  </div>
+</section>
+
+<!-- ============================================================
+     RODAPÉ
+============================================================ -->
+<footer>
+  <div class="container">
+    <strong>Antonio Barbearia</strong> — Asa Sul, Brasília-DF
+    <br>© 2026 Antonio Barbearia. Todos os direitos reservados.
+  </div>
+</footer>
+
+<!-- Botão flutuante de WhatsApp -->
+<a class="wa-float" href="https://wa.me/5561998781714?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20quero%20agendar%20um%20hor%C3%A1rio." target="_blank" rel="noopener" aria-label="Agendar pelo WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.52 0-10 4.48-10 10 0 1.76.46 3.48 1.34 5L2 22l5.14-1.35c1.46.8 3.1 1.22 4.9 1.22 5.52 0 10-4.48 10-10s-4.48-10-10-10zm0 18.15c-1.58 0-3.13-.42-4.48-1.22l-.32-.19-3.05.8.82-2.98-.21-.31A8.13 8.13 0 0 1 3.88 12c0-4.5 3.66-8.15 8.16-8.15S20.2 7.5 20.2 12s-3.66 8.15-8.16 8.15zm4.48-6.11c-.24-.12-1.44-.71-1.66-.79-.22-.08-.39-.12-.55.12-.16.24-.63.79-.78.95-.14.16-.29.18-.53.06-.24-.12-1.02-.38-1.94-1.2-.72-.64-1.2-1.43-1.34-1.67-.14-.24-.02-.37.11-.49.11-.11.24-.29.36-.43.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.55-1.33-.76-1.82-.2-.48-.4-.42-.55-.42h-.47c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.11.16 1.53.1.47-.07 1.44-.59 1.64-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.46-.28z"/></svg>
+</a>
+
+<script>
+  // ============================================================
+  // ANIMAÇÕES DE ENTRADA (Motion) — fade + slide up ao rolar
+  // Fallback: se a lib não carregar, remove a classe reveal para
+  // garantir que o conteúdo continue visível.
+  // ============================================================
+  (function(){
+    var elements = document.querySelectorAll('[data-reveal]');
+
+    if (window.Motion && typeof window.Motion.inView === 'function') {
+      elements.forEach(function(el, i){
+        window.Motion.inView(el, function(){
+          window.Motion.animate(
+            el,
+            { opacity: [0, 1], transform: ['translateY(26px)', 'translateY(0px)'] },
+            { duration: 0.7, delay: (i % 4) * 0.08, easing: [0.22, 1, 0.36, 1] }
+          );
+        }, { margin: '-10% 0px -10% 0px' });
+      });
+    } else {
+      elements.forEach(function(el){ el.classList.remove('reveal'); });
+    }
+  })();
+
+  // ============================================================
+  // MICROINTERAÇÃO DE HOVER nos botões (leve "press" ao clicar)
+  // ============================================================
+  (function(){
+    if (!window.Motion || typeof window.Motion.animate !== 'function') return;
+    document.querySelectorAll('.btn, .wa-float').forEach(function(btn){
+      btn.addEventListener('mousedown', function(){
+        window.Motion.animate(btn, { scale: 0.96 }, { duration: 0.15 });
+      });
+      btn.addEventListener('mouseup', function(){
+        window.Motion.animate(btn, { scale: 1 }, { duration: 0.2 });
+      });
+      btn.addEventListener('mouseleave', function(){
+        window.Motion.animate(btn, { scale: 1 }, { duration: 0.2 });
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>
