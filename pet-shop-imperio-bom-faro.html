@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Império Bom Faro — Banho e Tosa em Ceilândia</title>
+<meta name="description" content="Império Bom Faro: banho, tosa e cuidado de verdade para o seu pet em Ceilândia, Brasília-DF. Nota 5,0 no Google com 53 avaliações. Agende pelo WhatsApp.">
+
+<!-- ============================================================
+     GOOGLE FONTS
+     Fredoka -> títulos/headline (arredondada, lúdica, amigável)
+     Quicksand -> corpo do texto (sans-serif limpa e legível)
+============================================================ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- ============================================================
+     MOTION (motion.dev para vanilla JS) via CDN
+     Animações de entrada (fade + slide) e "bounce" leve no hover
+============================================================ -->
+<script src="https://cdn.jsdelivr.net/npm/motion@10.18.0/dist/motion.js"></script>
+
+<style>
+  /* ============================================================
+     VARIÁVEIS DE MARCA
+     {NOME_DO_NEGOCIO}, {ENDEREÇO} e {WHATSAPP} já preenchidos com os
+     dados reais do Império Bom Faro.
+  ============================================================ */
+  :root{
+    --laranja: #FF7A45;
+    --laranja-escuro: #E85D2A;
+    --laranja-claro: #FFE8DD;
+    --agua: #4ECDC4;
+    --agua-escuro: #2FA89E;
+    --agua-claro: #E1F7F5;
+    --amarelo: #FFC542;
+    --branco: #FFFFFF;
+    --off-white: #FFF9F5;
+    --texto: #3A2E28;
+    --texto-mudo: #7A6B62;
+    --borda: #FFE0CF;
+    --sombra: 0 14px 32px -12px rgba(255,122,69,0.35);
+    --display: 'Fredoka', -apple-system, BlinkMacSystemFont, sans-serif;
+    --sans: 'Quicksand', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background: var(--branco);
+    color: var(--texto);
+    font-family: var(--sans);
+    font-weight: 500;
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  img, svg{ display:block; max-width:100%; }
+  a{ color:inherit; text-decoration:none; }
+  ul{ list-style:none; }
+
+  .container{
+    width:100%;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  section{ position:relative; padding: 80px 0; }
+
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--laranja-escuro);
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+
+  h1, h2, h3{
+    font-family: var(--display);
+    font-weight: 600;
+    color: var(--texto);
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+
+  h2{ font-size: clamp(1.7rem, 3.8vw, 2.5rem); margin-bottom: 14px; }
+  h3{ font-size: 1.2rem; margin-bottom: 8px; }
+
+  .section-sub{
+    color: var(--texto-mudo);
+    max-width: 620px;
+    font-size: 1.05rem;
+    margin-bottom: 40px;
+  }
+  .center{ text-align:center; margin-left:auto; margin-right:auto; }
+
+  /* ---------- BOTÕES ---------- */
+  .btn{
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 32px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    font-family: var(--sans);
+    transition: transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .2s ease;
+  }
+
+  .btn-primary{
+    background: var(--laranja);
+    color: var(--branco);
+    box-shadow: var(--sombra);
+  }
+  .btn-primary:hover{ transform: translateY(-3px) scale(1.03); box-shadow: 0 18px 36px -10px rgba(255,122,69,0.5); }
+
+  .btn-outline{
+    background: var(--branco);
+    color: var(--laranja-escuro);
+    border: 2px solid var(--laranja);
+  }
+  .btn-outline:hover{ background: var(--laranja-claro); transform: translateY(-2px); }
+
+  .btn svg{ width:20px; height:20px; }
+
+  /* ---------- HEADER / NAV ---------- */
+  header{
+    position: fixed;
+    top:0; left:0; right:0;
+    z-index: 50;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--borda);
+  }
+  .nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding: 12px 24px;
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+  .logo{
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1.15rem;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color: var(--laranja-escuro);
+  }
+  .logo-icon{
+    width: 42px; height:42px;
+    border-radius: 14px;
+    background: var(--laranja-claro);
+    display:flex; align-items:center; justify-content:center;
+    color: var(--laranja);
+    flex-shrink:0;
+  }
+  .nav-links{
+    display:flex;
+    gap: 26px;
+    font-size: 0.94rem;
+    font-weight: 600;
+    color: var(--texto-mudo);
+  }
+  .nav-links a:hover{ color: var(--laranja-escuro); }
+  .nav-cta .btn{ padding: 11px 22px; font-size: 0.86rem; }
+
+  @media (max-width: 780px){
+    .nav-links{ display:none; }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding-top: 140px;
+    padding-bottom: 40px;
+    background: linear-gradient(180deg, var(--laranja-claro) 0%, var(--branco) 100%);
+    overflow: hidden;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 52px;
+    align-items:center;
+  }
+  @media (max-width: 900px){ .hero-grid{ grid-template-columns: 1fr; } }
+
+  .hero h1{ font-size: clamp(2rem, 4.8vw, 3.2rem); margin-bottom: 18px; }
+  .hero h1 .accent{ color: var(--laranja); }
+
+  .hero p.lead{
+    color: var(--texto-mudo);
+    font-size: 1.15rem;
+    font-weight: 600;
+    max-width: 500px;
+    margin-bottom: 30px;
+  }
+
+  .hero-actions{ display:flex; gap: 14px; flex-wrap: wrap; }
+
+  .hero-visual{
+    position: relative;
+    aspect-ratio: 1/1;
+    border-radius: 32px;
+    background: var(--agua-claro);
+    border: 3px dashed var(--agua);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .hero-visual svg{ width: 50%; color: var(--laranja); }
+  .hero-visual .paw-deco{
+    position:absolute;
+    color: var(--agua);
+    opacity: 0.5;
+  }
+  .paw-1{ width:34px; top:8%; left:10%; }
+  .paw-2{ width:26px; bottom:12%; right:14%; }
+  .paw-3{ width:20px; top:20%; right:8%; }
+
+  /* Selo de avaliação */
+  .badge-rating{
+    display:inline-flex;
+    align-items:center;
+    gap: 12px;
+    background: var(--branco);
+    border: 2px solid var(--amarelo);
+    border-radius: 999px;
+    padding: 12px 24px;
+    box-shadow: 0 10px 24px -10px rgba(255,197,66,0.6);
+    font-weight: 700;
+    margin: 28px auto 0;
+  }
+  .badge-rating .stars{ color: var(--amarelo); font-size: 1.1rem; letter-spacing: 2px; }
+  .badge-rating .info{ font-size: 0.92rem; color: var(--texto); }
+  .badge-rating .info strong{ color: var(--laranja-escuro); }
+  .badge-wrap{ display:flex; justify-content:center; }
+
+  /* ---------- SOBRE ---------- */
+  .sobre{ background: var(--off-white); }
+  .sobre-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items:center;
+  }
+  @media (max-width: 860px){ .sobre-grid{ grid-template-columns: 1fr; } }
+
+  .sobre-icon-grid{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+  .sobre-icon-card{
+    background: var(--branco);
+    border: 1px solid var(--borda);
+    border-radius: 18px;
+    padding: 24px;
+    text-align:center;
+  }
+  .sobre-icon-card .icon{
+    width:52px; height:52px;
+    margin: 0 auto 12px;
+    border-radius: 50%;
+    background: var(--agua-claro);
+    color: var(--agua-escuro);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .sobre-icon-card strong{ display:block; font-size: 0.92rem; }
+
+  /* ---------- SERVIÇOS ---------- */
+  .serv-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+  @media (max-width: 900px){ .serv-grid{ grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px){ .serv-grid{ grid-template-columns: 1fr; } }
+
+  .serv-card{
+    background: var(--branco);
+    border: 1px solid var(--borda);
+    border-radius: 20px;
+    padding: 28px 24px;
+    transition: transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s ease, border-color .25s ease;
+  }
+  .serv-card:hover{
+    transform: translateY(-6px);
+    box-shadow: var(--sombra);
+    border-color: transparent;
+  }
+  .serv-card .icon{
+    width:54px; height:54px;
+    border-radius: 16px;
+    background: var(--laranja-claro);
+    color: var(--laranja-escuro);
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom: 16px;
+  }
+  .serv-card p{ color: var(--texto-mudo); font-size: 0.9rem; }
+
+  /* ---------- DEPOIMENTOS ---------- */
+  .depoimentos{ background: var(--agua-claro); }
+  .depo-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+  @media (max-width: 900px){ .depo-grid{ grid-template-columns: 1fr; } }
+
+  .depo-card{
+    background: var(--branco);
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow: 0 10px 26px -14px rgba(58,46,40,0.2);
+  }
+  .depo-card .stars{ color: var(--amarelo); font-size: 1rem; margin-bottom: 14px; letter-spacing: 2px; }
+  .depo-card p.quote{ color: var(--texto); font-size: 0.96rem; margin-bottom: 18px; }
+  .depo-autor{ display:flex; align-items:center; gap: 12px; }
+  .depo-avatar{
+    width: 40px; height:40px; border-radius:50%;
+    background: var(--laranja);
+    color: var(--branco);
+    display:flex; align-items:center; justify-content:center;
+    font-weight:700; font-size: 0.95rem;
+    font-family: var(--display);
+  }
+  .depo-nome{ font-weight:700; font-size: 0.92rem; }
+  .depo-cargo{ color: var(--texto-mudo); font-size: 0.78rem; }
+  .depo-fonte{ color: var(--texto-mudo); font-size: 0.76rem; margin-top: 2px; }
+
+  /* ---------- DIFERENCIAIS ---------- */
+  .dif-grid{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+  }
+  @media (max-width: 1000px){ .dif-grid{ grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px){ .dif-grid{ grid-template-columns: 1fr; } }
+
+  .dif-item{ text-align:center; padding: 16px; }
+  .dif-item .icon{
+    width: 66px; height:66px;
+    margin: 0 auto 16px;
+    border-radius: 50%;
+    background: var(--laranja-claro);
+    color: var(--laranja-escuro);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .dif-item p{ color: var(--texto-mudo); font-size: 0.9rem; }
+
+  /* ---------- HORÁRIO E LOCALIZAÇÃO ---------- */
+  .local{ background: var(--off-white); }
+  .local-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  @media (max-width: 860px){ .local-grid{ grid-template-columns: 1fr; } }
+
+  .local-card{
+    background: var(--branco);
+    border: 1px solid var(--borda);
+    border-radius: 20px;
+    padding: 32px;
+  }
+  .local-card h3{ display:flex; align-items:center; gap: 10px; }
+  .local-card h3 svg{ width:22px; height:22px; color: var(--laranja); }
+
+  .horario-row{
+    display:flex;
+    justify-content:space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--borda);
+    font-size: 0.95rem;
+  }
+  .horario-row:last-of-type{ border-bottom:none; }
+  .horario-row span:first-child{ font-weight:700; }
+  .horario-row span:last-child{ color: var(--texto-mudo); }
+  .horario-nota{ color: var(--texto-mudo); font-size: 0.8rem; margin-top: 14px; }
+
+  .local-row{ display:flex; gap: 12px; margin-bottom: 18px; }
+  .local-row .icon{ color: var(--laranja); flex-shrink:0; width:20px; }
+  .local-row span{ color: var(--texto-mudo); font-size: 0.92rem; }
+
+  /* ---------- CTA FINAL ---------- */
+  .cta-final{
+    text-align:center;
+    background: linear-gradient(135deg, var(--laranja-escuro), var(--laranja));
+    color: var(--branco);
+  }
+  .cta-final h2{ color: var(--branco); }
+  .cta-final .section-sub{ color: rgba(255,255,255,0.9); margin-left:auto; margin-right:auto; }
+  .cta-final .badge-rating{ background: rgba(255,255,255,0.15); border-color: var(--amarelo); }
+  .cta-final .badge-rating .info{ color: var(--branco); }
+  .cta-final .badge-rating .info strong{ color: var(--amarelo); }
+  .cta-final .btn-primary{ background: var(--branco); color: var(--laranja-escuro); }
+
+  /* ---------- RODAPÉ ---------- */
+  footer{
+    background: var(--texto);
+    color: rgba(255,255,255,0.75);
+    padding: 32px 0;
+    text-align:center;
+    font-size: 0.85rem;
+  }
+  footer strong{ color: var(--branco); font-family: var(--display); }
+
+  /* ---------- WHATSAPP FLUTUANTE ---------- */
+  .wa-float{
+    position: fixed;
+    bottom: 22px;
+    right: 22px;
+    z-index: 60;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background: var(--agua-escuro);
+    color: var(--branco);
+    padding: 14px 20px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.92rem;
+    box-shadow: 0 14px 30px -10px rgba(47,168,158,0.6);
+    transition: transform .18s cubic-bezier(.34,1.56,.64,1);
+  }
+  .wa-float:hover{ transform: scale(1.06); }
+  .wa-float svg{ width: 22px; height:22px; flex-shrink:0; }
+
+  @media (max-width: 560px){
+    .wa-float span{ display:none; }
+    .wa-float{ padding: 15px; }
+  }
+
+  /* Utilitário de animação (fallback caso Motion não carregue) */
+  .reveal{ opacity:0; transform: translateY(24px); }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER
+============================================================ -->
+<header>
+  <nav class="nav">
+    <div class="logo">
+      <span class="logo-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><ellipse cx="12" cy="16" rx="5.5" ry="4.5"/><ellipse cx="5" cy="9" rx="2" ry="2.5"/><ellipse cx="19" cy="9" rx="2" ry="2.5"/><ellipse cx="8.5" cy="4.5" rx="1.8" ry="2.3"/><ellipse cx="15.5" cy="4.5" rx="1.8" ry="2.3"/></svg>
+      </span>
+      Império Bom Faro
+    </div>
+    <div class="nav-links">
+      <a href="#servicos">Serviços</a>
+      <a href="#depoimentos">Depoimentos</a>
+      <a href="#local">Localização</a>
+    </div>
+    <div class="nav-cta">
+      <!-- {WHATSAPP}: https://wa.me/5561995706160 -->
+      <a class="btn btn-primary" href="https://wa.me/5561995706160?text=Ol%C3%A1!%20Quero%20agendar%20um%20banho%2Ftosa%20para%20meu%20pet." target="_blank" rel="noopener">
+        Agendar
+      </a>
+    </div>
+  </nav>
+</header>
+
+<!-- ============================================================
+     1. HERO
+============================================================ -->
+<section class="hero" id="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="reveal" data-reveal>
+        <span class="eyebrow">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><ellipse cx="12" cy="16" rx="5.5" ry="4.5"/><ellipse cx="5" cy="9" rx="2" ry="2.5"/><ellipse cx="19" cy="9" rx="2" ry="2.5"/><ellipse cx="8.5" cy="4.5" rx="1.8" ry="2.3"/><ellipse cx="15.5" cy="4.5" rx="1.8" ry="2.3"/></svg>
+          Império Bom Faro • Ceilândia
+        </span>
+        <h1>Seu pet merece ser tratado como <span class="accent">família</span></h1>
+        <p class="lead">Banho, tosa e cuidado de verdade, com quem ama o que faz.</p>
+        <div class="hero-actions">
+          <!-- {WHATSAPP}: https://wa.me/5561995706160 -->
+          <a class="btn btn-primary" href="https://wa.me/5561995706160?text=Ol%C3%A1!%20Quero%20agendar%20um%20banho%2Ftosa%20para%20meu%20pet." target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.52 0-10 4.48-10 10 0 1.76.46 3.48 1.34 5L2 22l5.14-1.35c1.46.8 3.1 1.22 4.9 1.22 5.52 0 10-4.48 10-10s-4.48-10-10-10zm0 18.15c-1.58 0-3.13-.42-4.48-1.22l-.32-.19-3.05.8.82-2.98-.21-.31A8.13 8.13 0 0 1 3.88 12c0-4.5 3.66-8.15 8.16-8.15S20.2 7.5 20.2 12s-3.66 8.15-8.16 8.15zm4.48-6.11c-.24-.12-1.44-.71-1.66-.79-.22-.08-.39-.12-.55.12-.16.24-.63.79-.78.95-.14.16-.29.18-.53.06-.24-.12-1.02-.38-1.94-1.2-.72-.64-1.2-1.43-1.34-1.67-.14-.24-.02-.37.11-.49.11-.11.24-.29.36-.43.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.55-1.33-.76-1.82-.2-.48-.4-.42-.55-.42h-.47c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.11.16 1.53.1.47-.07 1.44-.59 1.64-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.46-.28z"/></svg>
+            Agendar pelo WhatsApp
+          </a>
+          <a class="btn btn-outline" href="#servicos">Ver serviços</a>
+        </div>
+      </div>
+
+      <!-- SVG inline no lugar de foto do pet/loja. Trocar por foto real dos animais/ambiente depois. -->
+      <div class="hero-visual reveal" data-reveal>
+        <svg class="paw-deco paw-1" viewBox="0 0 24 24" fill="currentColor"><ellipse cx="12" cy="16" rx="5.5" ry="4.5"/><ellipse cx="5" cy="9" rx="2" ry="2.5"/><ellipse cx="19" cy="9" rx="2" ry="2.5"/><ellipse cx="8.5" cy="4.5" rx="1.8" ry="2.3"/><ellipse cx="15.5" cy="4.5" rx="1.8" ry="2.3"/></svg>
+        <svg class="paw-deco paw-2" viewBox="0 0 24 24" fill="currentColor"><ellipse cx="12" cy="16" rx="5.5" ry="4.5"/><ellipse cx="5" cy="9" rx="2" ry="2.5"/><ellipse cx="19" cy="9" rx="2" ry="2.5"/><ellipse cx="8.5" cy="4.5" rx="1.8" ry="2.3"/><ellipse cx="15.5" cy="4.5" rx="1.8" ry="2.3"/></svg>
+        <svg class="paw-deco paw-3" viewBox="0 0 24 24" fill="currentColor"><ellipse cx="12" cy="16" rx="5.5" ry="4.5"/><ellipse cx="5" cy="9" rx="2" ry="2.5"/><ellipse cx="19" cy="9" rx="2" ry="2.5"/><ellipse cx="8.5" cy="4.5" rx="1.8" ry="2.3"/><ellipse cx="15.5" cy="4.5" rx="1.8" ry="2.3"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+          <path d="M4.5 15c0-3.5 3.4-6.5 7.5-6.5s7.5 3 7.5 6.5c0 3-2.5 5-4 5.5-.5.15-1-.2-1-.7v-1.2c0-.5-.4-.9-.9-.9h-3.2c-.5 0-.9.4-.9.9v1.2c0 .5-.5.85-1 .7-1.5-.5-4-2.5-4-5.5z"/>
+          <circle cx="8.5" cy="13.5" r="1"/>
+          <circle cx="15.5" cy="13.5" r="1"/>
+          <path d="M9 7c-1-1.5-1-3 0-4M15 7c1-1.5 1-3 0-4"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Selo de avaliação real do Google -->
+    <div class="badge-wrap reveal" data-reveal>
+      <div class="badge-rating">
+        <span class="stars">★★★★★</span>
+        <span class="info"><strong>5,0</strong> — 53 avaliações no Google</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     2. SOBRE
+============================================================ -->
+<section class="sobre">
+  <div class="container sobre-grid">
+    <div class="reveal" data-reveal>
+      <span class="eyebrow">Sobre nós</span>
+      <h2>Referência em cuidado com pets em Ceilândia</h2>
+      <p class="section-sub" style="margin-bottom:0;">
+        O Império Bom Faro nasceu do amor genuíno pelos animais. Aqui, cada banho e cada
+        tosa são feitos com atenção de verdade: sem pressa, sem estresse pro seu pet e com
+        uma equipe que trata cada cliente de quatro patas como se fosse da própria família.
+      </p>
+    </div>
+    <div class="sobre-icon-grid reveal" data-reveal>
+      <div class="sobre-icon-card">
+        <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><ellipse cx="12" cy="16" rx="5.5" ry="4.5"/><ellipse cx="5" cy="9" rx="2" ry="2.5"/><ellipse cx="19" cy="9" rx="2" ry="2.5"/><ellipse cx="8.5" cy="4.5" rx="1.8" ry="2.3"/><ellipse cx="15.5" cy="4.5" rx="1.8" ry="2.3"/></svg></div>
+        <strong>Carinho genuíno</strong>
+      </div>
+      <div class="sobre-icon-card">
+        <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.6 1.6 6.8L12 16.9 5.8 20.3l1.6-6.8L2.2 8.9l6.9-.6z"/></svg></div>
+        <strong>Nota 5,0 no Google</strong>
+      </div>
+      <div class="sobre-icon-card">
+        <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+        <strong>Hora marcada</strong>
+      </div>
+      <div class="sobre-icon-card">
+        <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <strong>Equipe experiente</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     3. SERVIÇOS
+============================================================ -->
+<section id="servicos">
+  <div class="container">
+    <span class="eyebrow reveal" data-reveal>Nossos serviços</span>
+    <h2 class="reveal" data-reveal>Tudo que seu pet precisa em um só lugar</h2>
+    <p class="section-sub reveal" data-reveal>Cuidados completos, feitos com técnica e muito carinho.</p>
+
+    <div class="serv-grid">
+      <div class="serv-card reveal" data-reveal>
+        <div class="icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 3a9 9 0 0 1 9 9c0 3.5-2 6.5-5 8-1.5-3-1-5 0-7-3 0-5-2-5-5 0-2 .5-3.5 1-5z"/></svg></div>
+        <h3>Banho</h3>
+        <p>Banho completo com produtos adequados para a pele e o pelo do seu pet.</p>
+      </div>
+      <div class="serv-card reveal" data-reveal>
+        <div class="icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l3 3-3 3M13 6l5 6-5 6"/></svg></div>
+        <h3>Tosa</h3>
+        <p>Tosa na tesoura ou na máquina, do jeitinho que combina com o seu pet.</p>
+      </div>
+      <div class="serv-card reveal" data-reveal>
+        <div class="icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2c-3 3-3 6 0 9s3 6 0 9M8 6c-1.5 2-1.5 3 0 5M16 6c1.5 2 1.5 3 0 5"/></svg></div>
+        <h3>Hidratação</h3>
+        <p>Tratamento hidratante para deixar o pelo macio, brilhante e saudável.</p>
+      </div>
+      <div class="serv-card reveal" data-reveal>
+        <div class="icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M8 12h8M8 9h5M8 15h5"/></svg></div>
+        <h3>Remoção de pelo morto</h3>
+        <p>Escovação especializada que reduz a queda de pelo pela casa.</p>
+      </div>
+      <div class="serv-card reveal" data-reveal>
+        <div class="icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg></div>
+        <h3>Banho de ozônio</h3>
+        <p>Ação bactericida e cicatrizante, ótimo para peles sensíveis ou irritadas.</p>
+      </div>
+      <div class="serv-card reveal" data-reveal>
+        <div class="icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div>
+        <h3>Tosa higiênica</h3>
+        <p>Higiene e conforto nas áreas mais sensíveis, com cuidado redobrado.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     4. DEPOIMENTOS (reais, coletados do Google)
+============================================================ -->
+<section class="depoimentos" id="depoimentos">
+  <div class="container">
+    <span class="eyebrow reveal" data-reveal>Quem já veio, aprova</span>
+    <h2 class="reveal" data-reveal>Avaliações reais de clientes no Google</h2>
+    <p class="section-sub reveal" data-reveal>Nota 5,0 com 53 avaliações — aqui estão alguns depoimentos.</p>
+
+    <div class="depo-grid">
+      <div class="depo-card reveal" data-reveal>
+        <div class="stars">★★★★★</div>
+        <p class="quote">"Atendimento excepcional, com a equipe demonstrando atenção genuína e carinho."</p>
+        <div class="depo-autor">
+          <div class="depo-avatar">N</div>
+          <div>
+            <div class="depo-nome">Nathaly</div>
+            <div class="depo-fonte">Avaliação no Google</div>
+          </div>
+        </div>
+      </div>
+      <div class="depo-card reveal" data-reveal>
+        <div class="stars">★★★★★</div>
+        <p class="quote">"Maravilhoso atendimento. Muito atenciosos, prestativos. Hora marcada e rapidez no cuidado."</p>
+        <div class="depo-autor">
+          <div class="depo-avatar">I</div>
+          <div>
+            <div class="depo-nome">Isis</div>
+            <div class="depo-fonte">Avaliação no Google</div>
+          </div>
+        </div>
+      </div>
+      <div class="depo-card reveal" data-reveal>
+        <div class="stars">★★★★★</div>
+        <p class="quote">"Satisfeita, amei! Com direito a remoção de pelo morto."</p>
+        <div class="depo-autor">
+          <div class="depo-avatar">R</div>
+          <div>
+            <div class="depo-nome">Raquel</div>
+            <div class="depo-fonte">Avaliação no Google</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     5. DIFERENCIAIS
+============================================================ -->
+<section id="diferenciais">
+  <div class="container">
+    <span class="eyebrow reveal" data-reveal>Por que escolher a gente</span>
+    <h2 class="reveal" data-reveal>O cuidado que faz a diferença</h2>
+
+    <div class="dif-grid">
+      <div class="dif-item reveal" data-reveal>
+        <div class="icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><ellipse cx="12" cy="16" rx="5.5" ry="4.5"/><ellipse cx="5" cy="9" rx="2" ry="2.5"/><ellipse cx="19" cy="9" rx="2" ry="2.5"/><ellipse cx="8.5" cy="4.5" rx="1.8" ry="2.3"/><ellipse cx="15.5" cy="4.5" rx="1.8" ry="2.3"/></svg></div>
+        <h3>Equipe apaixonada</h3>
+        <p>Profissionais que tratam cada pet com o mesmo carinho que dariam ao próprio.</p>
+      </div>
+      <div class="dif-item reveal" data-reveal>
+        <div class="icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+        <h3>Hora marcada, sem espera</h3>
+        <p>Você agenda o horário e é atendido no tempo certo, sem enrolação.</p>
+      </div>
+      <div class="dif-item reveal" data-reveal>
+        <div class="icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <h3>Produtos de qualidade</h3>
+        <p>Shampoos e produtos indicados para cada tipo de pelo e pele.</p>
+      </div>
+      <div class="dif-item reveal" data-reveal>
+        <div class="icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L4 6v6c0 5 3.4 8.7 8 10 4.6-1.3 8-5 8-10V6z"/></svg></div>
+        <h3>Ambiente seguro e tranquilo</h3>
+        <p>Espaço pensado para deixar o seu pet à vontade, sem estresse.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     6. HORÁRIO E LOCALIZAÇÃO
+============================================================ -->
+<section class="local" id="local">
+  <div class="container">
+    <span class="eyebrow reveal" data-reveal>Horário e localização</span>
+    <h2 class="reveal" data-reveal>Venha nos conhecer</h2>
+    <p class="section-sub reveal" data-reveal>Estamos em Ceilândia prontos para cuidar do seu pet.</p>
+
+    <div class="local-grid">
+      <div class="local-card reveal" data-reveal>
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg> Horário de funcionamento</h3>
+        <!-- Horário de exemplo — confirme e ajuste para o horário real de funcionamento -->
+        <div class="horario-row"><span>Segunda a sábado</span><span>08h às 18h</span></div>
+        <div class="horario-row"><span>Domingo</span><span>Fechado</span></div>
+        <p class="horario-nota">Horário de exemplo — confirme o horário real de atendimento pelo WhatsApp.</p>
+      </div>
+
+      <div class="local-card reveal" data-reveal>
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Endereço</h3>
+        <div class="local-row">
+          <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>Expansão do St. O QNO 18 Lote 17 — Ceilândia, Brasília - DF, 72260-895</span>
+        </div>
+        <div class="local-row">
+          <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.04 2c-5.52 0-10 4.48-10 10 0 1.76.46 3.48 1.34 5L2 22l5.14-1.35c1.46.8 3.1 1.22 4.9 1.22 5.52 0 10-4.48 10-10s-4.48-10-10-10z"/></svg>
+          <span>(61) 99570-6160</span>
+        </div>
+        <a class="btn btn-primary" href="https://www.google.com/maps/search/?api=1&query=Expans%C3%A3o+do+Setor+O+QNO+18+Lote+17%2C+Ceil%C3%A2ndia%2C+Bras%C3%ADlia+-+DF%2C+72260-895" target="_blank" rel="noopener" style="margin-top:8px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M9 20l-5.5 2 2-5.5L20 3z"/></svg>
+          Como chegar
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     7. CTA FINAL
+============================================================ -->
+<section class="cta-final">
+  <div class="container" style="display:flex; flex-direction:column; align-items:center;">
+    <h2 class="reveal" data-reveal>Marque agora o carinho que seu pet merece</h2>
+    <p class="section-sub reveal" data-reveal>Nota 5,0 no Google, com 53 avaliações de clientes satisfeitos. Vem conferir!</p>
+    <div class="badge-rating reveal" data-reveal style="margin-bottom:28px;">
+      <span class="stars">★★★★★</span>
+      <span class="info"><strong>5,0</strong> — 53 avaliações no Google</span>
+    </div>
+    <!-- {WHATSAPP}: https://wa.me/5561995706160 -->
+    <a class="btn btn-primary reveal" data-reveal href="https://wa.me/5561995706160?text=Ol%C3%A1!%20Quero%20agendar%20um%20banho%2Ftosa%20para%20meu%20pet." target="_blank" rel="noopener" style="font-size:1.05rem; padding:18px 36px;">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12.04 2c-5.52 0-10 4.48-10 10 0 1.76.46 3.48 1.34 5L2 22l5.14-1.35c1.46.8 3.1 1.22 4.9 1.22 5.52 0 10-4.48 10-10s-4.48-10-10-10zm0 18.15c-1.58 0-3.13-.42-4.48-1.22l-.32-.19-3.05.8.82-2.98-.21-.31A8.13 8.13 0 0 1 3.88 12c0-4.5 3.66-8.15 8.16-8.15S20.2 7.5 20.2 12s-3.66 8.15-8.16 8.15zm4.48-6.11c-.24-.12-1.44-.71-1.66-.79-.22-.08-.39-.12-.55.12-.16.24-.63.79-.78.95-.14.16-.29.18-.53.06-.24-.12-1.02-.38-1.94-1.2-.72-.64-1.2-1.43-1.34-1.67-.14-.24-.02-.37.11-.49.11-.11.24-.29.36-.43.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.55-1.33-.76-1.82-.2-.48-.4-.42-.55-.42h-.47c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.11.16 1.53.1.47-.07 1.44-.59 1.64-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.46-.28z"/></svg>
+      Agendar pelo WhatsApp
+    </a>
+  </div>
+</section>
+
+<!-- ============================================================
+     RODAPÉ
+============================================================ -->
+<footer>
+  <div class="container">
+    <strong>Império Bom Faro</strong> — Banho e Tosa em Ceilândia, Brasília-DF
+    <br>© 2026 Império Bom Faro. Todos os direitos reservados.
+  </div>
+</footer>
+
+<!-- Botão flutuante de WhatsApp -->
+<!-- {WHATSAPP}: https://wa.me/5561995706160 -->
+<a class="wa-float" href="https://wa.me/5561995706160?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20quero%20agendar%20um%20banho%2Ftosa." target="_blank" rel="noopener" aria-label="Agendar pelo WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.52 0-10 4.48-10 10 0 1.76.46 3.48 1.34 5L2 22l5.14-1.35c1.46.8 3.1 1.22 4.9 1.22 5.52 0 10-4.48 10-10s-4.48-10-10-10zm0 18.15c-1.58 0-3.13-.42-4.48-1.22l-.32-.19-3.05.8.82-2.98-.21-.31A8.13 8.13 0 0 1 3.88 12c0-4.5 3.66-8.15 8.16-8.15S20.2 7.5 20.2 12s-3.66 8.15-8.16 8.15zm4.48-6.11c-.24-.12-1.44-.71-1.66-.79-.22-.08-.39-.12-.55.12-.16.24-.63.79-.78.95-.14.16-.29.18-.53.06-.24-.12-1.02-.38-1.94-1.2-.72-.64-1.2-1.43-1.34-1.67-.14-.24-.02-.37.11-.49.11-.11.24-.29.36-.43.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.55-1.33-.76-1.82-.2-.48-.4-.42-.55-.42h-.47c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.11.16 1.53.1.47-.07 1.44-.59 1.64-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.46-.28z"/></svg>
+  <span>Agendar</span>
+</a>
+
+<script>
+  // ============================================================
+  // ANIMAÇÕES DE ENTRADA (Motion) — fade + slide up ao rolar
+  // Fallback: se a lib não carregar, remove a classe reveal para
+  // garantir que o conteúdo continue visível.
+  // ============================================================
+  (function(){
+    var elements = document.querySelectorAll('[data-reveal]');
+
+    if (window.Motion && typeof window.Motion.inView === 'function') {
+      elements.forEach(function(el, i){
+        window.Motion.inView(el, function(){
+          window.Motion.animate(
+            el,
+            { opacity: [0, 1], transform: ['translateY(24px)', 'translateY(0px)'] },
+            { duration: 0.6, delay: (i % 4) * 0.07, easing: [0.22, 1, 0.36, 1] }
+          );
+        }, { margin: '-10% 0px -10% 0px' });
+      });
+    } else {
+      elements.forEach(function(el){ el.classList.remove('reveal'); });
+    }
+  })();
+
+  // ============================================================
+  // MICROINTERAÇÃO "BOUNCE" leve no hover dos botões
+  // ============================================================
+  (function(){
+    if (!window.Motion || typeof window.Motion.animate !== 'function') return;
+    document.querySelectorAll('.btn, .wa-float').forEach(function(btn){
+      btn.addEventListener('mouseenter', function(){
+        window.Motion.animate(btn, { scale: [1, 1.08, 1.03] }, { duration: 0.4, easing: [0.34, 1.56, 0.64, 1] });
+      });
+      btn.addEventListener('mousedown', function(){
+        window.Motion.animate(btn, { scale: 0.94 }, { duration: 0.12 });
+      });
+      btn.addEventListener('mouseup', function(){
+        window.Motion.animate(btn, { scale: 1.03 }, { duration: 0.2 });
+      });
+      btn.addEventListener('mouseleave', function(){
+        window.Motion.animate(btn, { scale: 1 }, { duration: 0.2 });
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>
